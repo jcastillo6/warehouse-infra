@@ -29,8 +29,7 @@ resource "helm_release" "jenkins" {
   chart      = "jenkins"
   name       = "jenkins"
   namespace  = var.namespace
-  repository = "https://marketplace.azurecr.io/helm/v1/repo"
-  version    = "11.0.9"
+  repository = "https://charts.jenkins.io"
   values = [
     "${file("jenkins_values.yaml")}"
   ]
@@ -40,10 +39,10 @@ resource "kubernetes_ingress_v1" "nginx_ingress" {
   metadata {
     name = "nginx-ingress"
     annotations = {
-      "nginx.ingress.kubernetes.io/rewrite-target" = "/$2"
+      "nginx.ingress.kubernetes.io/rewrite-target" = "/jenkins/$2"
       "nginx.ingress.kubernetes.io/ssl-redirect" = "false"
       "nginx.ingress.kubernetes.io/use-regex" = "true"
-
+      "nginx.ingress.kubernetes.io/app-root" = "/jenkins"
     }
 
     namespace = var.namespace
@@ -58,12 +57,12 @@ resource "kubernetes_ingress_v1" "nginx_ingress" {
             service {
               name = "jenkins"
               port {
-                number = 80
+                number = 8080
               }
             }
           }
 
-          path = "/jenkins"
+          path = "/jenkins(/|$)(.*)"
           path_type = "Prefix"
         }
       }
