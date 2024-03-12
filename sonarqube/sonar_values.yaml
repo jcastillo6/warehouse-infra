@@ -1,0 +1,7 @@
+sonarWebContext: /sonar
+persistence:
+  enabled: true
+postgresql:
+  postgresqlUsername: sonarqube
+  postgresqlPassword: sonarqube
+  postgresqlDatabase: sonarqube
