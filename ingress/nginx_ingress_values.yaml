@@ -1,0 +1,9 @@
+controller:
+  replicaCount: 1
+  service:
+    type: LoadBalancer
+    # externalTrafficPolicy: Local tells Kubernetes to only accept traffic on nodes which actually run a pod of your service. Additionally the health check is no longer getting handled by your workload itself but by kube-proxy or its replacement. Kubernetes therefore allocates a separate health check node port.
+    #https://github.com/kubernetes/ingress-nginx/issues/10869#issuecomment-1913302642
+    externalTrafficPolicy: Local
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path: /healthz

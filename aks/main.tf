@@ -2,6 +2,7 @@
 resource "random_pet" "rg_name" {
   prefix = var.resource_group_name_prefix
 }
+
 resource "random_string" "random" {
   length           = 30
   special          = false
@@ -11,6 +12,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.resource_group_location
   name     = random_pet.rg_name.id
 }
+
 resource "random_pet" "azurerm_kubernetes_cluster_name" {
   prefix = "cluster"
 }
@@ -52,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "k8s" {
   role_based_access_control_enabled = true
 
   network_profile {
-    network_plugin    = "kubenet"
+    network_plugin    = "azure"
     load_balancer_sku = "standard"
   }
 }

@@ -5,6 +5,7 @@ variable "appId" {
 variable "password" {
   description = "Azure Kubernetes Service Cluster password"
 }
+
 variable "resource_group_location" {
   type        = string
   default     = "eastus"
